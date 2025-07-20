@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { MapPin } from "lucide-react";
 
 const Product = ({
   product,
@@ -53,7 +54,11 @@ const Product = ({
     >
       <div className="p-6">
         <div className="flex items-start justify-between mb-4">
-          <div className="text-3xl">{product.image}</div>
+          <img
+            className="w-32 h-32 aspect-square object-cover"
+            src={product.image}
+            alt={product.name}
+          />
           {showRating && (
             <div className="flex items-center space-x-1">
               <span className="text-yellow-400">★</span>
@@ -87,7 +92,9 @@ const Product = ({
             {formatPrice(product.price)}
           </span>
           {showLocation && (
-            <span className="text-sm text-gray-500">📍 {product.location}</span>
+            <span className="text-sm text-gray-500 flex items-center gap-1">
+              <MapPin size={16} /> {product.location}
+            </span>
           )}
         </div>
       </div>

@@ -5,6 +5,8 @@ import Footer from "../components/Footer";
 import Product from "../components/Product";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import ContactProvider from "../components/ContactProvider";
+import { Hourglass } from "lucide-react";
 
 function formatPrice(price) {
   if (typeof price === "string" && price.includes("Rp")) return price;
@@ -29,76 +31,11 @@ function getCategoryColor(categoryId) {
   return colors[categoryId] || "bg-gray-100 text-gray-800";
 }
 
-function ContactModal({ open, onClose, productName, onSubmit, form, setForm }) {
-  if (!open) return null;
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg max-w-md w-full p-6">
-        <h2 className="text-xl font-bold mb-4">Contact Provider</h2>
-        <p className="text-gray-600 mb-4">
-          Send a message to inquire about "{productName}"
-        </p>
-        <form onSubmit={onSubmit}>
-          <div className="space-y-4">
-            <Input
-              label="Your Name"
-              type="text"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-              required
-            />
-            <Input
-              label="Email Address"
-              type="email"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-              required
-            />
-            <Input
-              label="Phone Number"
-              type="tel"
-              value={form.phone}
-              onChange={(e) => setForm({ ...form, phone: e.target.value })}
-            />
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Message
-              </label>
-              <textarea
-                value={form.message}
-                onChange={(e) => setForm({ ...form, message: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                rows="4"
-                placeholder="Tell us about your requirements..."
-                required
-              />
-            </div>
-          </div>
-          <div className="flex justify-end space-x-3 mt-6">
-            <Button type="button" variant="outline" onClick={onClose}>
-              Cancel
-            </Button>
-            <Button type="submit" variant="primary">
-              Send Message
-            </Button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-}
-
 export default function DetailProduct() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
-  const [contactForm, setContactForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   useEffect(() => {
@@ -124,20 +61,15 @@ export default function DetailProduct() {
     }
   }, [id, navigate]);
 
-  const handleContactSubmit = (e) => {
-    e.preventDefault();
-    alert("Thank you for your inquiry! We'll get back to you soon.");
-    setContactForm({ name: "", email: "", phone: "", message: "" });
-    setIsContactModalOpen(false);
-  };
-
   if (!product) {
     return (
       <div className="min-h-screen bg-gray-50">
         <Header />
-        <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="max-w-7xl min-h-screen flex items-center justify-center mx-auto px-4 py-8">
           <div className="text-center">
-            <div className="text-6xl mb-4">⏳</div>
+            <div className="mb-4 flex justify-center">
+              <Hourglass size={150} />
+            </div>
             <h2 className="text-2xl font-bold text-gray-800 mb-2">
               Loading...
             </h2>
@@ -183,8 +115,12 @@ export default function DetailProduct() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
             {/* Product Image & Info */}
             <div className="bg-white rounded-lg shadow-lg p-8">
-              <div className="text-center mb-6">
-                <div className="text-8xl mb-4">{product.image}</div>
+              <div className="text-center mb-6 flex flex-col items-center">
+                <img
+                  className="w-64 h-64 aspect-square object-cover"
+                  src={product.image}
+                  alt={product.name}
+                />
                 <h1 className="text-3xl font-bold text-gray-800 mb-2">
                   {product.name}
                 </h1>
@@ -327,13 +263,13 @@ export default function DetailProduct() {
             </div>
           )}
         </div>
-        <ContactModal
+        <ContactProvider
           open={isContactModalOpen}
           onClose={() => setIsContactModalOpen(false)}
           productName={product.name}
-          onSubmit={handleContactSubmit}
-          form={contactForm}
-          setForm={setContactForm}
+          onSubmit={() => {
+            alert("Thank you for your inquiry! We'll get back to you soon.");
+          }}
         />
       </main>
       <Footer />

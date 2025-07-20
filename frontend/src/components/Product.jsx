@@ -41,7 +41,7 @@ const Product = ({
     if (onClick) {
       onClick(product);
     } else {
-      navigate(`/product/${product.id}`);
+      navigate(`/DetailProduct/${product.id}`);
     }
   };
 

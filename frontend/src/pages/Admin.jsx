@@ -5,7 +5,7 @@ import AdminAdd from "../components/AdminAdd";
 import AdminEdit from "../components/AdminEdit";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import { Package, Truck, Computer, Camera } from "lucide-react";
+import { Package, Truck, Computer, Camera, Search } from "lucide-react";
 const CATEGORIES = [
   { id: "logistics", name: "Logistics & Transporter" },
   { id: "tech", name: "Tech & Measurement" },
@@ -137,7 +137,7 @@ export default function Admin() {
                 placeholder="Search items..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                icon={<span className="text-gray-400">🔍</span>}
+                icon={<Search size={18} />}
                 className="bg-white"
               />
               <Button
@@ -177,7 +177,11 @@ export default function Admin() {
                   <tr key={item.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
                       <div className="flex items-center">
-                        <div className="text-2xl mr-3">{item.icon}</div>
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="w-20 h-20 mr-3"
+                        />
                         <div>
                           <div className="text-sm font-medium text-gray-900">
                             {item.name}
@@ -225,7 +229,9 @@ export default function Admin() {
             </table>
             {filteredItems.length === 0 && (
               <div className="text-center py-12">
-                <div className="text-4xl mb-4">📦</div>
+                <div className=" mb-4 flex items-center justify-center">
+                  <Package size={48} />
+                </div>
                 <h3 className="text-lg font-medium text-gray-900 mb-2">
                   No items found
                 </h3>

@@ -1,5 +1,5 @@
 import React from "react";
-
+import Transmore from "../assets/Transmore.jsx";
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
@@ -25,10 +25,90 @@ const Footer = () => {
   };
 
   const socialLinks = [
-    { name: "Facebook", icon: "📘", href: "#" },
-    { name: "Twitter", icon: "🐦", href: "#" },
-    { name: "Instagram", icon: "📷", href: "#" },
-    { name: "LinkedIn", icon: "💼", href: "#" },
+    {
+      name: "Facebook",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-facebook-icon lucide-facebook"
+        >
+          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+        </svg>
+      ),
+      href: "#",
+    },
+    {
+      name: "Twitter",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-twitter-icon lucide-twitter"
+        >
+          <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+        </svg>
+      ),
+      href: "#",
+    },
+    {
+      name: "Instagram",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-instagram-icon lucide-instagram"
+        >
+          <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+          <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+        </svg>
+      ),
+      href: "#",
+    },
+    {
+      name: "LinkedIn",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-linkedin-icon lucide-linkedin"
+        >
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+          <rect width="4" height="12" x="2" y="9" />
+          <circle cx="4" cy="4" r="2" />
+        </svg>
+      ),
+      href: "#",
+    },
   ];
 
   return (
@@ -39,10 +119,7 @@ const Footer = () => {
           {/* Company Info */}
           <div className="lg:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">T</span>
-              </div>
-              <span className="text-xl font-bold">TransMore</span>
+              <Transmore className="w-40 fill-white" />
             </div>
             <p className="text-gray-400 mb-4 max-w-md">
               Your trusted partner for comprehensive business solutions. We
@@ -128,7 +205,7 @@ const Footer = () => {
                 placeholder="Enter your email"
                 className="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
               />
-              <button className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-r-lg transition duration-200">
+              <button className="px-6 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-r-lg transition duration-200">
                 Subscribe
               </button>
             </div>

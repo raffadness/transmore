@@ -15,7 +15,7 @@ const Button = ({
 }) => {
   // Variant classes
   const variantClasses = {
-    primary: "bg-blue-600 hover:bg-blue-700 text-white border-blue-600",
+    primary: "bg-blue-500 hover:bg-blue-700 text-white border-blue-500",
     secondary: "bg-gray-600 hover:bg-gray-700 text-white border-gray-600",
     outline: "bg-transparent hover:bg-gray-50 text-gray-700 border-gray-300",
     danger: "bg-red-600 hover:bg-red-700 text-white border-red-600",

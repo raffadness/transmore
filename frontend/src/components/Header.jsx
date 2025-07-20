@@ -9,6 +9,7 @@ import {
   FileText,
   Users,
 } from "lucide-react";
+import Transmore from "../assets/Transmore.jsx";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -83,10 +84,9 @@ export default function Header() {
           {/* Logo */}
           <div className="flex items-center">
             <a href="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">T</span>
-              </div>
-              <span className="text-xl font-bold text-gray-800">TransMore</span>
+              <span>
+                <Transmore className="w-20 fill-blue-500" />
+              </span>
               {user?.role === "admin" && (
                 <span className="ml-2 px-2 py-0.5 rounded bg-red-100 text-red-600 text-xs font-semibold">
                   Admin
@@ -102,7 +102,7 @@ export default function Header() {
                 <a
                   key={item.label}
                   href={item.href}
-                  className="flex items-center gap-1 text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200"
+                  className="flex items-center gap-1 text-gray-600 hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium transition duration-200"
                 >
                   {item.icon}
                   {item.label}
@@ -118,7 +118,7 @@ export default function Header() {
                   onClick={toggleProfile}
                   className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 transition"
                 >
-                  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                  <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
                     <span className="text-white text-sm font-medium">
                       {user.email.charAt(0).toUpperCase()}
                     </span>
@@ -151,13 +151,13 @@ export default function Header() {
               <div className="flex items-center space-x-3">
                 <a
                   href="/login"
-                  className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200"
+                  className="text-gray-600 hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium transition duration-200"
                 >
                   Login
                 </a>
                 <a
                   href="/register"
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-200"
+                  className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-200"
                 >
                   Register
                 </a>
@@ -169,7 +169,7 @@ export default function Header() {
           <div className="md:hidden">
             <button
               onClick={toggleMenu}
-              className="text-gray-600 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+              className="text-gray-600 hover:text-blue-500 focus:outline-none focus:text-blue-500"
             >
               <svg
                 className="h-6 w-6"
@@ -206,7 +206,7 @@ export default function Header() {
                   <a
                     key={item.label}
                     href={item.href}
-                    className="flex items-center gap-2 text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition duration-200"
+                    className="flex items-center gap-2 text-gray-600 hover:text-blue-500 px-3 py-2 rounded-md text-base font-medium transition duration-200"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {item.icon}
@@ -217,7 +217,7 @@ export default function Header() {
               {user ? (
                 <div className="pt-4 pb-3 border-t border-gray-200">
                   <div className="flex items-center px-3">
-                    <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                    <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
                       <span className="text-white text-sm font-medium">
                         {user.email.charAt(0).toUpperCase()}
                       </span>
@@ -237,7 +237,7 @@ export default function Header() {
                         handleLogout();
                         setIsMenuOpen(false);
                       }}
-                      className="flex items-center gap-2 text-gray-600 hover:text-red-600 block px-3 py-2 rounded-md text-base font-medium transition duration-200"
+                      className="flex items-center gap-2 text-gray-600 hover:text-red-600  px-3 py-2 rounded-md text-base font-medium transition duration-200"
                     >
                       <LogOut size={18} /> Logout
                     </button>
@@ -247,14 +247,14 @@ export default function Header() {
                 <div className="pt-4 pb-3 border-t border-gray-200">
                   <a
                     href="/login"
-                    className="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition duration-200"
+                    className="text-gray-600 hover:text-blue-500 block px-3 py-2 rounded-md text-base font-medium transition duration-200"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Login
                   </a>
                   <a
                     href="/register"
-                    className="bg-blue-600 hover:bg-blue-700 text-white block px-3 py-2 rounded-md text-base font-medium transition duration-200 mt-2"
+                    className="bg-blue-500 hover:bg-blue-700 text-white block px-3 py-2 rounded-md text-base font-medium transition duration-200 mt-2"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Register

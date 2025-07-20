@@ -64,7 +64,7 @@ export default function Login() {
                 Don't have an account?{" "}
                 <a
                   href="/register"
-                  className="text-blue-600 hover:text-blue-700 font-medium"
+                  className="text-blue-500 hover:text-blue-700 font-medium"
                 >
                   Sign up
                 </a>

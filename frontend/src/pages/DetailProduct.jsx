@@ -92,7 +92,7 @@ export default function DetailProduct() {
           <nav className="mb-8">
             <ol className="flex items-center space-x-2 text-sm text-gray-600">
               <li>
-                <a href="/" className="hover:text-blue-600">
+                <a href="/" className="hover:text-blue-500">
                   Home
                 </a>
               </li>
@@ -100,7 +100,7 @@ export default function DetailProduct() {
                 <span className="mx-2">/</span>
               </li>
               <li>
-                <a href="/" className="hover:text-blue-600">
+                <a href="/" className="hover:text-blue-500">
                   Catalog
                 </a>
               </li>
@@ -150,7 +150,7 @@ export default function DetailProduct() {
               </div>
               <div className="border-t pt-6">
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-2xl font-bold text-blue-600">
+                  <span className="text-2xl font-bold text-blue-500">
                     {formatPrice(product.price)}
                   </span>
                   <span className="text-sm text-gray-500">Starting Price</span>
@@ -168,21 +168,21 @@ export default function DetailProduct() {
                 </h2>
                 <ul className="space-y-3">
                   <li className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                     <span className="text-gray-700">
                       Professional service delivery
                     </span>
                   </li>
                   <li className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                     <span className="text-gray-700">Quality guaranteed</span>
                   </li>
                   <li className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                     <span className="text-gray-700">24/7 customer support</span>
                   </li>
                   <li className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                     <span className="text-gray-700">
                       Flexible pricing options
                     </span>
@@ -225,7 +225,7 @@ export default function DetailProduct() {
                   About Provider
                 </h2>
                 <div className="flex items-center space-x-4 mb-4">
-                  <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
                     <span className="text-white font-bold text-lg">
                       {product.name.charAt(0).toUpperCase()}
                     </span>

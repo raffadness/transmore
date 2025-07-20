@@ -5,7 +5,7 @@ import AdminAdd from "../components/AdminAdd";
 import AdminEdit from "../components/AdminEdit";
 import Input from "../components/Input";
 import Button from "../components/Button";
-
+import { Package, Truck, Computer, Camera } from "lucide-react";
 const CATEGORIES = [
   { id: "logistics", name: "Logistics & Transporter" },
   { id: "tech", name: "Tech & Measurement" },
@@ -29,7 +29,7 @@ export default function Admin() {
     price: "",
     category: "logistics",
     location: "",
-    image: "🚚",
+    icon: "Truck",
   });
 
   useEffect(() => {
@@ -57,7 +57,7 @@ export default function Admin() {
       price: "",
       category: "logistics",
       location: "",
-      image: "🚚",
+      image: "",
     });
     setShowAddModal(false);
   };
@@ -102,13 +102,13 @@ export default function Admin() {
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <StatCard
-              icon="📦"
+              icon={<Package />}
               label="Total Items"
               value={items.length}
               color="blue"
             />
             <StatCard
-              icon="🚚"
+              icon={<Truck />}
               label="Logistics"
               value={
                 items.filter((item) => item.category === "logistics").length
@@ -116,13 +116,13 @@ export default function Admin() {
               color="green"
             />
             <StatCard
-              icon="⚙️"
+              icon={<Computer />}
               label="Tech"
               value={items.filter((item) => item.category === "tech").length}
               color="purple"
             />
             <StatCard
-              icon="📱"
+              icon={<Camera />}
               label="Media"
               value={items.filter((item) => item.category === "media").length}
               color="pink"
@@ -177,7 +177,7 @@ export default function Admin() {
                   <tr key={item.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
                       <div className="flex items-center">
-                        <div className="text-2xl mr-3">{item.image}</div>
+                        <div className="text-2xl mr-3">{item.icon}</div>
                         <div>
                           <div className="text-sm font-medium text-gray-900">
                             {item.name}

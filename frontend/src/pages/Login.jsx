@@ -15,10 +15,10 @@ export default function Login() {
     // Demo login logic
     if (email === "admin@example.com" && password === "admin123") {
       localStorage.setItem("user", JSON.stringify({ email, role: "admin" }));
-      navigate("/dashboard");
+      navigate("/");
     } else if (email === "user@example.com" && password === "user123") {
       localStorage.setItem("user", JSON.stringify({ email, role: "user" }));
-      navigate("/dashboard");
+      navigate("/");
     } else {
       setError("Invalid credentials. Please use the demo credentials below.");
     }

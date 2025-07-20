@@ -1,10 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import {
+  ChevronDown,
+  LogOut,
+  User2,
+  LayoutDashboard,
+  Settings,
+  FileText,
+  Users,
+} from "lucide-react";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const profileRef = useRef();
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -13,18 +24,60 @@ export default function Header() {
     }
   }, []);
 
+  // Close profile dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
+        setIsProfileOpen(false);
+      }
+    }
+    if (isProfileOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isProfileOpen]);
+
   const handleLogout = () => {
     localStorage.removeItem("user");
     setUser(null);
+    setIsProfileOpen(false);
     navigate("/login");
   };
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const toggleMenu = () => setIsMenuOpen((v) => !v);
+  const toggleProfile = () => setIsProfileOpen((v) => !v);
+
+  // Menu items
+  const adminMenu = [
+    { label: "Dashboard", href: "/admin", icon: <LayoutDashboard size={18} /> },
+    { label: "Users", href: "/admin/users", icon: <Users size={18} /> },
+    { label: "Reports", href: "/admin/reports", icon: <FileText size={18} /> },
+    {
+      label: "Settings",
+      href: "/admin/settings",
+      icon: <Settings size={18} />,
+    },
+  ];
+  const userMenu = [
+    {
+      label: "Dashboard",
+      href: "/dashboard",
+      icon: <LayoutDashboard size={18} />,
+    },
+    {
+      label: "Transactions",
+      href: "/transactions",
+      icon: <FileText size={18} />,
+    },
+    { label: "Reports", href: "/reports", icon: <FileText size={18} /> },
+    { label: "Settings", href: "/settings", icon: <Settings size={18} /> },
+  ];
+  const menu = user?.role === "admin" ? adminMenu : userMenu;
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200">
+    <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -34,34 +87,65 @@ export default function Header() {
                 <span className="text-white font-bold text-sm">T</span>
               </div>
               <span className="text-xl font-bold text-gray-800">TransMore</span>
+              {user?.role === "admin" && (
+                <span className="ml-2 px-2 py-0.5 rounded bg-red-100 text-red-600 text-xs font-semibold">
+                  Admin
+                </span>
+              )}
             </a>
           </div>
 
           {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-6">
+            {user &&
+              menu.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className="flex items-center gap-1 text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200"
+                >
+                  {item.icon}
+                  {item.label}
+                </a>
+              ))}
+          </nav>
 
-          {/* User Menu */}
+          {/* Profile/Account */}
           <div className="hidden md:flex items-center space-x-4">
             {user ? (
-              <div className="flex items-center space-x-3">
-                <div className="text-right">
-                  <p className="text-sm font-medium text-gray-800">
-                    {user.email}
-                  </p>
-                  <p className="text-xs text-gray-500 capitalize">
-                    {user.role}
-                  </p>
-                </div>
-                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                  <span className="text-white text-sm font-medium">
-                    {user.email.charAt(0).toUpperCase()}
-                  </span>
-                </div>
+              <div className="relative" ref={profileRef}>
                 <button
-                  onClick={handleLogout}
-                  className="text-gray-600 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200"
+                  onClick={toggleProfile}
+                  className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 transition"
                 >
-                  Logout
+                  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm font-medium">
+                      {user.email.charAt(0).toUpperCase()}
+                    </span>
+                  </div>
+                  <span className="text-gray-800 text-sm font-medium max-w-[120px] truncate">
+                    {user.email}
+                  </span>
+                  <ChevronDown size={18} className="text-gray-400" />
                 </button>
+                {isProfileOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50">
+                    <div className="px-4 py-2 border-b border-gray-100">
+                      <div className="font-medium text-gray-800 text-sm">
+                        {user.email}
+                      </div>
+                      <div className="text-xs text-gray-500 capitalize">
+                        {user.role}
+                      </div>
+                    </div>
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 gap-2"
+                    >
+                      <LogOut size={16} /> Logout
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="flex items-center space-x-3">
@@ -117,35 +201,18 @@ export default function Header() {
         {isMenuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200">
-              <a
-                href="/dashboard"
-                className="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition duration-200"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Dashboard
-              </a>
-              <a
-                href="/transactions"
-                className="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition duration-200"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Transactions
-              </a>
-              <a
-                href="/reports"
-                className="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition duration-200"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Reports
-              </a>
-              <a
-                href="/settings"
-                className="text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition duration-200"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Settings
-              </a>
-
+              {user &&
+                menu.map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    className="flex items-center gap-2 text-gray-600 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition duration-200"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.icon}
+                    {item.label}
+                  </a>
+                ))}
               {/* Mobile User Section */}
               {user ? (
                 <div className="pt-4 pb-3 border-t border-gray-200">
@@ -170,9 +237,9 @@ export default function Header() {
                         handleLogout();
                         setIsMenuOpen(false);
                       }}
-                      className="text-gray-600 hover:text-red-600 block px-3 py-2 rounded-md text-base font-medium transition duration-200"
+                      className="flex items-center gap-2 text-gray-600 hover:text-red-600 block px-3 py-2 rounded-md text-base font-medium transition duration-200"
                     >
-                      Logout
+                      <LogOut size={18} /> Logout
                     </button>
                   </div>
                 </div>

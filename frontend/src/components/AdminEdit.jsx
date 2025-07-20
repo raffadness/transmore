@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
 
@@ -10,7 +10,23 @@ const AdminEdit = ({
   onSubmit,
   categories,
 }) => {
+  const [imageError, setImageError] = useState("");
   if (!isOpen || !editingItem) return null;
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 500 * 1024) {
+      setImageError("File size must be less than 500KB");
+      return;
+    }
+    setImageError("");
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setEditingItem({ ...editingItem, image: reader.result });
+    };
+    reader.readAsDataURL(file);
+  };
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
@@ -91,16 +107,27 @@ const AdminEdit = ({
               required
             />
 
-            <Input
-              label="Icon (Emoji)"
-              type="text"
-              value={editingItem.image}
-              onChange={(e) =>
-                setEditingItem({ ...editingItem, image: e.target.value })
-              }
-              placeholder="🚚"
-              required
-            />
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Image (max 500KB)
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="w-full"
+              />
+              {imageError && (
+                <p className="text-red-500 text-xs mt-1">{imageError}</p>
+              )}
+              {editingItem.image && (
+                <img
+                  src={editingItem.image}
+                  alt="Preview"
+                  className="mt-2 rounded-lg border h-24 object-contain"
+                />
+              )}
+            </div>
           </div>
 
           <div className="flex justify-end space-x-3 mt-6">

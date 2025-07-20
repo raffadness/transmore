@@ -4,12 +4,13 @@ import Footer from "../components/Footer";
 import Product from "../components/Product";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import { House, Truck, Computer, Camera, Search } from "lucide-react";
 
 const CATEGORIES = [
-  { id: "all", name: "All Categories", icon: "🏠" },
-  { id: "logistics", name: "Logistics & Transporter", icon: "🚚" },
-  { id: "tech", name: "Tech & Measurement", icon: "⚙️" },
-  { id: "media", name: "Media & Promotion", icon: "📱" },
+  { id: "all", name: "All Categories", icon: <House /> },
+  { id: "logistics", name: "Logistics & Transporter", icon: <Truck /> },
+  { id: "tech", name: "Tech & Measurement", icon: <Computer /> },
+  { id: "media", name: "Media & Promotion", icon: <Camera /> },
 ];
 
 const FILTERS = [
@@ -35,7 +36,7 @@ function getCatalogData() {
       description: "Fast and reliable delivery across Indonesia",
       price: "50000",
       rating: 4.8,
-      image: "🚚",
+      icon: "Truck",
       location: "Jakarta",
       category: "logistics",
     },
@@ -45,7 +46,7 @@ function getCatalogData() {
       description: "Specialized transport for heavy machinery",
       price: "500000",
       rating: 4.6,
-      image: "📦",
+      icon: "Package",
       location: "Surabaya",
       category: "logistics",
     },
@@ -55,7 +56,7 @@ function getCatalogData() {
       description: "Temperature-controlled transportation",
       price: "150000",
       rating: 4.9,
-      image: "❄️",
+      icon: "Snowflake",
       location: "Bandung",
       category: "logistics",
     },
@@ -66,7 +67,7 @@ function getCatalogData() {
       description: "Precision weighing and measurement",
       price: "2500000",
       rating: 4.7,
-      image: "⚖️",
+      icon: "Scale",
       location: "Jakarta",
       category: "tech",
     },
@@ -76,7 +77,7 @@ function getCatalogData() {
       description: "Real-time vehicle tracking system",
       price: "1200000",
       rating: 4.5,
-      image: "📍",
+      icon: "MapPin",
       location: "Semarang",
       category: "tech",
     },
@@ -86,7 +87,7 @@ function getCatalogData() {
       description: "Smart temperature monitoring",
       price: "800000",
       rating: 4.8,
-      image: "🌡️",
+      icon: "Thermometer",
       location: "Yogyakarta",
       category: "tech",
     },
@@ -97,7 +98,7 @@ function getCatalogData() {
       description: "Complete social media management",
       price: "3000000",
       rating: 4.9,
-      image: "📱",
+      icon: "Smartphone",
       location: "Jakarta",
       category: "media",
     },
@@ -107,7 +108,7 @@ function getCatalogData() {
       description: "Professional video content creation",
       price: "5000000",
       rating: 4.7,
-      image: "🎥",
+      icon: "Video",
       location: "Bandung",
       category: "media",
     },
@@ -117,7 +118,7 @@ function getCatalogData() {
       description: "Comprehensive brand awareness",
       price: "8000000",
       rating: 4.8,
-      image: "🎯",
+      icon: "Target",
       location: "Surabaya",
       category: "media",
     },
@@ -275,7 +276,9 @@ export default function Home() {
           {/* No Results */}
           {filteredItems.length === 0 && (
             <div className="text-center py-12">
-              <div className="text-6xl mb-4">🔍</div>
+              <div className="text-6xl mb-4">
+                <Search size={100} />
+              </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-2">
                 No results found
               </h3>

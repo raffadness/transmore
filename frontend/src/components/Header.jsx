@@ -7,7 +7,7 @@ import {
   LayoutDashboard,
   Settings,
   FileText,
-  Users,
+  Package,
 } from "lucide-react";
 import Transmore from "../assets/Transmore.jsx";
 
@@ -52,28 +52,28 @@ export default function Header() {
 
   // Menu items
   const adminMenu = [
-    { label: "Dashboard", href: "/admin", icon: <LayoutDashboard size={18} /> },
-    { label: "Users", href: "/admin/users", icon: <Users size={18} /> },
-    { label: "Reports", href: "/admin/reports", icon: <FileText size={18} /> },
+    { label: "Dashboard", href: "/", icon: <LayoutDashboard size={18} /> },
+    { label: "Products", href: "/admin", icon: <Package size={18} /> },
+    { label: "Reports", href: "/", icon: <FileText size={18} /> },
     {
       label: "Settings",
-      href: "/admin/settings",
+      href: "/",
       icon: <Settings size={18} />,
     },
   ];
   const userMenu = [
     {
       label: "Dashboard",
-      href: "/dashboard",
+      href: "/",
       icon: <LayoutDashboard size={18} />,
     },
     {
       label: "Transactions",
-      href: "/transactions",
+      href: "/",
       icon: <FileText size={18} />,
     },
-    { label: "Reports", href: "/reports", icon: <FileText size={18} /> },
-    { label: "Settings", href: "/settings", icon: <Settings size={18} /> },
+    { label: "Reports", href: "/", icon: <FileText size={18} /> },
+    { label: "Settings", href: "/", icon: <Settings size={18} /> },
   ];
   const menu = user?.role === "admin" ? adminMenu : userMenu;
 

@@ -30,12 +30,11 @@ export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [catalog, setCatalog] = useState([]);
-  // const navigate = useNavigate(); // Removed as per edit hint
 
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const res = await fetch("http://localhost:3001/api/products");
+        const res = await fetch(`http://localhost:3001/api/products`);
         if (!res.ok) {
           setCatalog([]);
           return;

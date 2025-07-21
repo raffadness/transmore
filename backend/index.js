@@ -3,14 +3,17 @@ import cors from "cors";
 import sqlite3 from "sqlite3";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT;
 const JWT_SECRET = process.env.JWT_SECRET;
 
 // Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: "2mb" }));
 
 // Middleware autentikasi JWT
 function authenticateToken(req, res, next) {

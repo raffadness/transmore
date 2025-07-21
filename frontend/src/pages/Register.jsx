@@ -35,32 +35,33 @@ export default function Register() {
     setSubmitError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = validate(form);
     setErrors(newErrors);
     setSubmitError("");
     if (Object.keys(newErrors).length > 0) return;
-    // Demo registration logic
-    const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
-    if (existingUsers.find((user) => user.email === form.email)) {
-      setSubmitError("Email already registered. Please use a different email.");
-      return;
+    try {
+      const res = await fetch("http://localhost:3001/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          password: form.password,
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setSubmitError(data.message || "Registration failed");
+        return;
+      }
+      const data = await res.json();
+      localStorage.setItem("user", JSON.stringify(data));
+      navigate("/login");
+    } catch {
+      setSubmitError("Network error");
     }
-    const newUser = {
-      id: Date.now(),
-      name: form.name,
-      email: form.email,
-      password: form.password,
-      role: "user",
-    };
-    existingUsers.push(newUser);
-    localStorage.setItem("users", JSON.stringify(existingUsers));
-    localStorage.setItem(
-      "user",
-      JSON.stringify({ email: newUser.email, role: newUser.role })
-    );
-    navigate("/dashboard");
   };
 
   return (

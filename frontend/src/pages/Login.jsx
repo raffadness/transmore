@@ -9,18 +9,26 @@ export default function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    // Demo login logic
-    if (email === "admin@example.com" && password === "admin123") {
-      localStorage.setItem("user", JSON.stringify({ email, role: "admin" }));
+    try {
+      const res = await fetch("http://localhost:3001/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.message || "Login failed");
+        return;
+      }
+      const data = await res.json();
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
       navigate("/");
-    } else if (email === "user@example.com" && password === "user123") {
-      localStorage.setItem("user", JSON.stringify({ email, role: "user" }));
-      navigate("/");
-    } else {
-      setError("Invalid credentials. Please use the demo credentials below.");
+    } catch {
+      setError("Network error");
     }
   };
 

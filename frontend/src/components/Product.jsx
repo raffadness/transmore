@@ -4,7 +4,6 @@ import { MapPin } from "lucide-react";
 
 const Product = ({
   product,
-  showRating = true,
   showLocation = true,
   showCategory = false,
   className = "",
@@ -59,14 +58,7 @@ const Product = ({
             src={product.image}
             alt={product.name}
           />
-          {showRating && (
-            <div className="flex items-center space-x-1">
-              <span className="text-yellow-400">★</span>
-              <span className="text-sm text-gray-600">{product.rating}</span>
-            </div>
-          )}
         </div>
-
         {showCategory && (
           <div className="mb-3">
             <span

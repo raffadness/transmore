@@ -111,7 +111,7 @@ const AdminAdd = ({
               </label>
               <input
                 type="file"
-                accept="image/*"
+                accept="image/png, image/jpeg, image/jpg"
                 onChange={handleImageChange}
                 className="w-full"
               />

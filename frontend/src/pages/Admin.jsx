@@ -27,54 +27,110 @@ export default function Admin() {
     name: "",
     description: "",
     price: "",
+    image: "",
     category: "logistics",
     location: "",
-    icon: "Truck",
   });
 
   useEffect(() => {
-    const saved = localStorage.getItem("catalogItems");
-    if (saved) {
-      setItems(JSON.parse(saved));
+    async function fetchProducts() {
+      try {
+        const res = await fetch("http://localhost:3001/api/products");
+        if (!res.ok) {
+          setItems([]);
+          return;
+        }
+        const data = await res.json();
+        setItems(data);
+      } catch {
+        setItems([]);
+      }
     }
+    fetchProducts();
   }, []);
 
-  const saveItems = (newItems) => {
-    setItems(newItems);
-    localStorage.setItem("catalogItems", JSON.stringify(newItems));
+  const fetchProducts = async () => {
+    try {
+      const res = await fetch("http://localhost:3001/api/products");
+      if (!res.ok) {
+        setItems([]);
+        return;
+      }
+      const data = await res.json();
+      setItems(data);
+    } catch {
+      setItems([]);
+    }
   };
 
-  const addItem = () => {
-    const item = {
-      id: Date.now(),
-      ...newItem,
-      rating: 4.5,
-    };
-    saveItems([...items, item]);
-    setNewItem({
-      name: "",
-      description: "",
-      price: "",
-      category: "logistics",
-      location: "",
-      image: "",
-    });
-    setShowAddModal(false);
+  const addItem = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch("http://localhost:3001/api/products", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ ...newItem }),
+      });
+      if (res.ok) {
+        setShowAddModal(false);
+        setNewItem({
+          name: "",
+          description: "",
+          price: "",
+          category: "logistics",
+          location: "",
+          image: "",
+        });
+        fetchProducts();
+      }
+    } catch (error) {
+      console.error("Error adding item:", error);
+    }
   };
 
-  const editItem = () => {
+  const editItem = async () => {
     if (!editingItem) return;
-    const updatedItems = items.map((item) =>
-      item.id === editingItem.id ? editingItem : item
-    );
-    saveItems(updatedItems);
-    setEditingItem(null);
-    setShowEditModal(false);
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(
+        `http://localhost:3001/api/products/${editingItem.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(editingItem),
+        }
+      );
+      if (res.ok) {
+        setShowEditModal(false);
+        setEditingItem(null);
+        fetchProducts();
+      }
+    } catch (error) {
+      console.error("Error editing item:", error);
+    }
   };
 
-  const deleteItem = (id) => {
-    if (window.confirm("Delete this item?")) {
-      saveItems(items.filter((item) => item.id !== id));
+  const deleteItem = async (id) => {
+    if (!window.confirm("Delete this item?")) return;
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(`http://localhost:3001/api/products/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (res.ok) {
+        fetchProducts();
+      }
+    } catch (error) {
+      console.error("Error deleting item:", error);
     }
   };
 

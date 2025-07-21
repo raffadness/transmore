@@ -17,113 +17,8 @@ const FILTERS = [
   { id: "all", name: "All" },
   { id: "price-low", name: "Price: Low to High" },
   { id: "price-high", name: "Price: High to Low" },
-  { id: "rating", name: "Highest Rated" },
   { id: "location", name: "By Location" },
 ];
-
-function getCatalogData() {
-  // Prefer localStorage data if available
-  const saved = localStorage.getItem("catalogItems");
-  if (saved) {
-    return JSON.parse(saved);
-  }
-  // Fallback sample data
-  return [
-    // Logistics
-    {
-      id: 1,
-      name: "Express Delivery Service",
-      description: "Fast and reliable delivery across Indonesia",
-      price: "50000",
-      rating: 4.8,
-      icon: "Truck",
-      location: "Jakarta",
-      category: "logistics",
-    },
-    {
-      id: 2,
-      name: "Heavy Cargo Transport",
-      description: "Specialized transport for heavy machinery",
-      price: "500000",
-      rating: 4.6,
-      icon: "Package",
-      location: "Surabaya",
-      category: "logistics",
-    },
-    {
-      id: 3,
-      name: "Cold Chain Logistics",
-      description: "Temperature-controlled transportation",
-      price: "150000",
-      rating: 4.9,
-      icon: "Snowflake",
-      location: "Bandung",
-      category: "logistics",
-    },
-    // Tech
-    {
-      id: 4,
-      name: "Digital Scale System",
-      description: "Precision weighing and measurement",
-      price: "2500000",
-      rating: 4.7,
-      icon: "Scale",
-      location: "Jakarta",
-      category: "tech",
-    },
-    {
-      id: 5,
-      name: "GPS Tracking Device",
-      description: "Real-time vehicle tracking system",
-      price: "1200000",
-      rating: 4.5,
-      icon: "MapPin",
-      location: "Semarang",
-      category: "tech",
-    },
-    {
-      id: 6,
-      name: "IoT Temperature Monitor",
-      description: "Smart temperature monitoring",
-      price: "800000",
-      rating: 4.8,
-      icon: "Thermometer",
-      location: "Yogyakarta",
-      category: "tech",
-    },
-    // Media
-    {
-      id: 7,
-      name: "Digital Marketing Package",
-      description: "Complete social media management",
-      price: "3000000",
-      rating: 4.9,
-      icon: "Smartphone",
-      location: "Jakarta",
-      category: "media",
-    },
-    {
-      id: 8,
-      name: "Video Production Service",
-      description: "Professional video content creation",
-      price: "5000000",
-      rating: 4.7,
-      icon: "Video",
-      location: "Bandung",
-      category: "media",
-    },
-    {
-      id: 9,
-      name: "Brand Promotion Campaign",
-      description: "Comprehensive brand awareness",
-      price: "8000000",
-      rating: 4.8,
-      icon: "Target",
-      location: "Surabaya",
-      category: "media",
-    },
-  ];
-}
 
 function formatPrice(price) {
   if (typeof price === "string" && price.includes("Rp")) return price;
@@ -138,7 +33,20 @@ export default function Home() {
   // const navigate = useNavigate(); // Removed as per edit hint
 
   useEffect(() => {
-    setCatalog(getCatalogData());
+    async function fetchProducts() {
+      try {
+        const res = await fetch("http://localhost:3001/api/products");
+        if (!res.ok) {
+          setCatalog([]);
+          return;
+        }
+        const data = await res.json();
+        setCatalog(data);
+      } catch {
+        setCatalog([]);
+      }
+    }
+    fetchProducts();
   }, []);
 
   function getFilteredItems() {
@@ -159,9 +67,6 @@ export default function Home() {
         break;
       case "price-high":
         items.sort((a, b) => parseInt(b.price) - parseInt(a.price));
-        break;
-      case "rating":
-        items.sort((a, b) => b.rating - a.rating);
         break;
       case "location":
         items.sort((a, b) => a.location.localeCompare(b.location));

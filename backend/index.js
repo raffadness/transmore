@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3001;
 const JWT_SECRET = process.env.JWT_SECRET;
 
 // Middleware

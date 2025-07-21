@@ -4,7 +4,6 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Product from "../components/Product";
 import Button from "../components/Button";
-import Input from "../components/Input";
 import ContactProvider from "../components/ContactProvider";
 import { Hourglass } from "lucide-react";
 
@@ -39,26 +38,31 @@ export default function DetailProduct() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   useEffect(() => {
-    const savedItems = localStorage.getItem("catalogItems");
-    if (savedItems) {
-      const items = JSON.parse(savedItems);
-      const foundProduct = items.find((item) => item.id === parseInt(id));
-      if (foundProduct) {
-        setProduct(foundProduct);
-        const related = items
-          .filter(
-            (item) =>
-              item.category === foundProduct.category &&
-              item.id !== foundProduct.id
-          )
-          .slice(0, 3);
-        setRelatedProducts(related);
-      } else {
+    async function fetchProduct() {
+      try {
+        const res = await fetch(`http://localhost:3001/api/products/${id}`);
+        if (!res.ok) {
+          navigate("/");
+          return;
+        }
+        const data = await res.json();
+        setProduct(data);
+        // Fetch related products by category
+        const resAll = await fetch("http://localhost:3001/api/products");
+        if (resAll.ok) {
+          const all = await resAll.json();
+          const related = all
+            .filter(
+              (item) => item.category === data.category && item.id !== data.id
+            )
+            .slice(0, 3);
+          setRelatedProducts(related);
+        }
+      } catch {
         navigate("/");
       }
-    } else {
-      navigate("/");
     }
+    fetchProduct();
   }, [id, navigate]);
 
   if (!product) {
@@ -125,11 +129,6 @@ export default function DetailProduct() {
                   {product.name}
                 </h1>
                 <div className="flex items-center justify-center space-x-2 mb-4">
-                  <div className="flex items-center">
-                    <span className="text-yellow-400 text-xl">★</span>
-                    <span className="ml-1 text-gray-600">{product.rating}</span>
-                  </div>
-                  <span className="text-gray-400">•</span>
                   <span
                     className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getCategoryColor(
                       product.category
@@ -206,12 +205,7 @@ export default function DetailProduct() {
                       {product.location}
                     </p>
                   </div>
-                  <div>
-                    <span className="text-sm text-gray-500">Rating</span>
-                    <p className="font-medium text-gray-800">
-                      {product.rating}/5.0
-                    </p>
-                  </div>
+
                   <div>
                     <span className="text-sm text-gray-500">Price Range</span>
                     <p className="font-medium text-gray-800">
@@ -227,12 +221,14 @@ export default function DetailProduct() {
                 <div className="flex items-center space-x-4 mb-4">
                   <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
                     <span className="text-white font-bold text-lg">
-                      {product.name.charAt(0).toUpperCase()}
+                      {product.user_name
+                        ? product.user_name.charAt(0).toUpperCase()
+                        : "?"}
                     </span>
                   </div>
                   <div>
                     <h3 className="font-medium text-gray-800">
-                      {product.name}
+                      {product.user_name || "Unknown User"}
                     </h3>
                     <p className="text-sm text-gray-500">Verified Provider</p>
                   </div>

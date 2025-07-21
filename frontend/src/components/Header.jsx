@@ -166,7 +166,7 @@ export default function Header() {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center">
             <button
               onClick={toggleMenu}
               className="text-gray-600 hover:text-blue-500 focus:outline-none focus:text-blue-500"

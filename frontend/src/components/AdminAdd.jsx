@@ -17,8 +17,8 @@ const AdminAdd = ({
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    if (file.size > 500 * 1024) {
-      setImageError("File size must be less than 500KB");
+    if (file.size > 2048 * 1024) {
+      setImageError("File size must be less than 2MB");
       return;
     }
     setImageError("");
@@ -107,11 +107,11 @@ const AdminAdd = ({
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Image (max 500KB)
+                Image (max 2MB)
               </label>
-              <input
+              <Input
                 type="file"
-                accept="image/png, image/jpeg, image/jpg"
+                accept="image/png, image/jpeg, image/jpg, image/webp"
                 onChange={handleImageChange}
                 className="w-full"
               />

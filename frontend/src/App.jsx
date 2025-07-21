@@ -14,10 +14,11 @@ export default function App() {
         fallback={
           <div className="min-h-screen flex items-center justify-center bg-gray-50">
             <div className="text-center">
-              <div className="text-4xl mb-2 animate-bounce flex items-center justify-center">
-                <div className="w-10 h-10 bg-blue-500 rounded-full"></div>
+              <div className="flex flex-row gap-2">
+                <div className="w-4 h-4 rounded-full bg-blue-500 animate-bounce"></div>
+                <div className="w-4 h-4 rounded-full bg-blue-500 animate-bounce [animation-delay:-.3s]"></div>
+                <div className="w-4 h-4 rounded-full bg-blue-500 animate-bounce [animation-delay:-.5s]"></div>
               </div>
-              <div className="text-lg text-gray-600">Loading</div>
             </div>
           </div>
         }

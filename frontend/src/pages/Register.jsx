@@ -58,7 +58,7 @@ export default function Register() {
       }
       const data = await res.json();
       localStorage.setItem("user", JSON.stringify(data));
-      navigate("/login");
+      navigate("/");
     } catch {
       setSubmitError("Network error");
     }

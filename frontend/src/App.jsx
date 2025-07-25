@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
 // Lazy load pages
@@ -6,8 +7,21 @@ const Register = lazy(() => import("./pages/Register"));
 const Home = lazy(() => import("./pages/Home"));
 const Admin = lazy(() => import("./pages/Admin"));
 const DetailProduct = lazy(() => import("./pages/DetailProduct"));
+import ProtectedRoute from "./components/ProtectedRoute";
+
+const useAuth = () => {
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const userRole = localStorage.getItem("userRole");
+    setIsAdmin(userRole === "admin");
+  }, []);
+
+  return { isAdmin };
+};
 
 export default function App() {
+  const { isAdmin } = useAuth();
   return (
     <BrowserRouter>
       <Suspense
@@ -27,7 +41,9 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route element={<ProtectedRoute isAdmin={isAdmin} />}>
+            <Route path="/admin" element={<Admin />} />
+          </Route>
           <Route path="/detailProduct/:id" element={<DetailProduct />} />
         </Routes>
       </Suspense>

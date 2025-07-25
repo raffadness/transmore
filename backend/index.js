@@ -28,7 +28,10 @@ function authenticateToken(req, res, next) {
 }
 
 function requireAdmin(req, res, next) {
-  if (req.user.role !== "admin") return res.sendStatus(403);
+  console.log("User role:", req.user && req.user.role);
+  if (!req.user || req.user.role !== "admin") {
+    return res.sendStatus(403);
+  }
   next();
 }
 
